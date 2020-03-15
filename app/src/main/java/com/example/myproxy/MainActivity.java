@@ -10,6 +10,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
@@ -21,7 +23,8 @@ import java.net.ServerSocket;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    RecyclerView listView;
+    GroupListAdaptor adaptor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +39,17 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        listView = findViewById(R.id.group_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        listView.setLayoutManager(layoutManager);
+        adaptor = new GroupListAdaptor(15);
+        listView.setAdapter(adaptor);
         Intent listener = new Intent(this, BrowserListener.class);
         startService(listener);
 
 
-
     }
-
 
 
     @Override
