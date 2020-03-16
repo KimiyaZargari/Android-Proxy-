@@ -1,5 +1,7 @@
 package com.example.myproxy;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GroupListAdaptor extends RecyclerView.Adapter<GroupListAdaptor.MyViewHolder> {
     ArrayList<Group> groups;
+    private Context context;
 
-    public GroupListAdaptor(ArrayList<Group> groups){
+    public GroupListAdaptor(ArrayList<Group> groups, Context context){
         this.groups = groups;
+        this.context = context;
     }
     @NonNull
     @Override
@@ -55,6 +58,15 @@ public class GroupListAdaptor extends RecyclerView.Adapter<GroupListAdaptor.MyVi
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.groupName);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   Intent intent = new Intent(context, GroupActivity.class);
+                   intent.putExtra("TITLE_KEY", name.getText().toString());
+                    context.startActivity(intent);
+
+                }
+            });
         }
 
     }

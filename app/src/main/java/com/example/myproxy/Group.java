@@ -1,21 +1,22 @@
 package com.example.myproxy;
 
+import java.util.Dictionary;
 import java.util.List;
 
 public class Group {
     private String name;
-    private List<String> websites;
+    private Dictionary<String, String> websites;
 
     public Group(String name) {
     this.name = name;
     }
 
-    public List<String> getWebsites() {
+    public Dictionary<String, String> getWebsites() {
         return websites;
     }
 
-    public void addWebsite(String s) {
-        websites.add(s);
+    public void addWebsite(String key, String val) {
+        websites.put(key, val);
 
     }
 
@@ -23,6 +24,9 @@ public class Group {
         websites.remove(i);
     }
 
+    public void deleteWebsite(String key) {
+        websites.remove(key);
+    }
     public String getName() {
         return name;
     }

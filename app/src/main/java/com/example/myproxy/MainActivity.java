@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.group_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listView.setLayoutManager(layoutManager);
-        adaptor = new GroupListAdaptor(new ArrayList<Group>());
+        adaptor = new GroupListAdaptor(new ArrayList<Group>(), MainActivity.this);
         listView.setAdapter(adaptor);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -95,9 +95,9 @@ public class MainActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             setContentView(R.layout.add_group_dialog);
-            add =  findViewById(R.id.addButton);
-            cancel =  findViewById(R.id.cancelButton);
-            groupName = findViewById(R.id.groupName);
+            add =  findViewById(R.id.addButtonGroup);
+            cancel =  findViewById(R.id.cancelButtonGroup);
+            groupName = findViewById(R.id.enterGroupName);
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -107,15 +107,16 @@ public class MainActivity extends AppCompatActivity {
                     if( name.equals(""))
                         Toast.makeText(getContext(), "Please enter group name!", Toast.LENGTH_SHORT).show();
                     else{
-                        int i = 0;
-                        while (i < groups.size()){
+                        boolean exists = false;
+
+                        for (int i = 0; i < groups.size(); i++){
                             if (groups.get(i).getName().equals(name)){
                                 Toast.makeText(getContext(), "group already exists", Toast.LENGTH_SHORT).show();
+                                exists = true;
                                 break;
                             }
-                            i++;
                         }
-                        if(i == groups.size()) {
+                        if(!exists) {
                             adaptor.addGroup(new Group(name));
                             groupName.setText("");
                         }

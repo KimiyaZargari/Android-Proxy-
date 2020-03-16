@@ -7,11 +7,25 @@
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="  Enter Group Name:"
+        android:text="  Enter Website Name:"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
-        android:id="@+id/enterGroupName"
+        android:id="@+id/enterWebsiteName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="  Enter Host Name:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <EditText
+        android:id="@+id/enterHostName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -23,14 +37,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/cancelButtonGroup"
+            android:id="@+id/cancelButtonWebsite"
             android:layout_width="62dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Cancel" />
 
         <Button
-            android:id="@+id/addButtonGroup"
+            android:id="@+id/addButtonWebsite"
             android:layout_width="62dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
