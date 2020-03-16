@@ -18,7 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -51,7 +53,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        Intent listener = new Intent(this, BrowserListener.class);
+        final Intent listener = new Intent(this, BrowserListener.class);
+        final Switch switchButton = findViewById(R.id.switchButton);
+
+        switchButton.setText("Proxy Off");
+        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    startService(listener);
+                    switchButton.setText("Proxy On");
+
+                }else{
+                    stopService(listener);
+                    switchButton.setText("Proxy Off");
+
+                }
+            }
+        });
         startService(listener);
 
 
