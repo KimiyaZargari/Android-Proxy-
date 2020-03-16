@@ -3,25 +3,31 @@ package com.example.myproxy;
 import java.util.List;
 
 public class Group {
-    private String Name;
+    private String name;
     private List<String> websites;
+
+    public Group(String name) {
+    this.name = name;
+    }
 
     public List<String> getWebsites() {
         return websites;
     }
-    public void addWebsite(String s){
+
+    public void addWebsite(String s) {
         websites.add(s);
 
     }
-    public void deleteWebsite(int i){
+
+    public void deleteWebsite(int i) {
         websites.remove(i);
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        name = name;
     }
 }

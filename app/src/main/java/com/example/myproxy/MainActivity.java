@@ -1,56 +1,62 @@
 package com.example.myproxy;
 
-import android.app.IntentService;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import java.net.ProxySelector;
-import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView listView;
     GroupListAdaptor adaptor;
-    List<Group> groups;
+   // List<Group> groups;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         listView = findViewById(R.id.group_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listView.setLayoutManager(layoutManager);
-        adaptor = new GroupListAdaptor(groups);
+        adaptor = new GroupListAdaptor(new ArrayList<Group>());
         listView.setAdapter(adaptor);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                 //       .setAction("Action", null).show();
+                new AddGroupDialog(MainActivity.this).show();
+
+
+            }
+        });
         Intent listener = new Intent(this, BrowserListener.class);
         startService(listener);
 
 
     }
+
 
 
     @Override
@@ -74,4 +80,57 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    private class AddGroupDialog extends Dialog {
+        Button add, cancel;
+        EditText groupName;
+
+        public AddGroupDialog(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.add_group_dialog);
+            add =  findViewById(R.id.addButton);
+            cancel =  findViewById(R.id.cancelButton);
+            groupName = findViewById(R.id.groupName);
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String name = String.valueOf(groupName.getText()).trim();
+                    List<Group> groups = adaptor.getGroups();
+
+                    if( name.equals(""))
+                        Toast.makeText(getContext(), "Please enter group name!", Toast.LENGTH_SHORT).show();
+                    else{
+                        int i = 0;
+                        while (i < groups.size()){
+                            if (groups.get(i).getName().equals(name)){
+                                Toast.makeText(getContext(), "group already exists", Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                            i++;
+                        }
+                        if(i == groups.size()) {
+                            adaptor.addGroup(new Group(name));
+                            groupName.setText("");
+                        }
+
+                    }
+                }
+            });
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+
+        }
+    }
+
 }
