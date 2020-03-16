@@ -8,11 +8,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class GroupListAdaptor extends RecyclerView.Adapter<GroupListAdaptor.MyViewHolder> {
-    int groupNum;
+import java.util.List;
 
-    public GroupListAdaptor(int groupNum){
-        this.groupNum = groupNum;
+public class GroupListAdaptor extends RecyclerView.Adapter<GroupListAdaptor.MyViewHolder> {
+    List<Group> groups;
+
+    public GroupListAdaptor(List<Group> groups){
+        this.groups = groups;
     }
     @NonNull
     @Override
@@ -25,13 +27,13 @@ public class GroupListAdaptor extends RecyclerView.Adapter<GroupListAdaptor.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull GroupListAdaptor.MyViewHolder holder, int position) {
-        holder.name.setText( "group " + position);
+        holder.name.setText( groups.get(position).getName());
 
     }
 
     @Override
     public int getItemCount() {
-        return groupNum;
+        return groups.size();
     }
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView name;

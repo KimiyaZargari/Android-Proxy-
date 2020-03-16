@@ -25,6 +25,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     RecyclerView listView;
     GroupListAdaptor adaptor;
+    List<Group> groups;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.group_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         listView.setLayoutManager(layoutManager);
-        adaptor = new GroupListAdaptor(15);
+        adaptor = new GroupListAdaptor(groups);
         listView.setAdapter(adaptor);
         Intent listener = new Intent(this, BrowserListener.class);
         startService(listener);
